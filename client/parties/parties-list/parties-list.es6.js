@@ -1,95 +1,111 @@
-//angular.module("socially").controller("PartiesListCtrl", ['$scope',
-
 var {Component, Template, Inject, SetModuleName} = angular2;
 
 SetModuleName('socially');
 
-@Component({selector: 'parties-list', transclude: true})
-@Template({url: 'client/parties/parties-list/parties-list.html'})
-@Inject(['$meteor', '$rootScope', '$state'])
+@Component({selector: 'parties-list'})
+@Template({url: 'client/parties/parties-list/parties-list.ng.html'})
+@Inject(['$scope', '$meteor', '$rootScope', '$state'])
+
 class PartiesList {
-    page = 1;
-    perPage = 3;
-    sort = {name: 1};
-    orderProperty = '1';
-    users = $meteor.collection(Meteor.users, false).subscribe('users');
-    parties = $meteor.collection( () => Parties.find({}, {sort: $scope.getReactively('sort') }) );
 
-    constructor($meteor, $rootScope, $state) {
-        var that = this;
+  constructor($scope, $meteor, $rootScope, $state) {
 
-        $meteor.autorun(that, function () {
-            $meteor.subscribe('parties', {
-                limit: parseInt(that.getReactively('perPage')),
-                skip:  (parseInt(that.getReactively('page')) - 1) * parseInt(that.getReactively('perPage')),
-                sort:  that.getReactively('sort')
-            }, that.getReactively('search')).then(function () {
-                that.partiesCount = $meteor.object(Counts, 'numberOfParties', false);
+    // Scope properties
+    $scope.page = 1;
+    $scope.perPage = 3;
+    $scope.sort = {name: 1};
+    $scope.orderProperty = '1';
 
-                that.parties.forEach(function (party) {
-                    party.onClicked = function () {
-                        onMarkerClicked(party);
-                    };
-                });
+    $scope.users = $meteor.collection(Meteor.users, false).subscribe('users');
 
-                that.map = {
-                    center: {
-                        latitude:  45,
-                        longitude: -73
-                    },
-                    zoom:   8
-                };
+    $scope.parties = $meteor.collection(function () {
+      return Parties.find({}, {
+        sort: $scope.getReactively('sort')
+      });
+    });
 
-                var onMarkerClicked = function (marker) {
-                    $state.go('partyDetails', {partyId: marker._id});
-                }
+    // Scope method declarations (API)
+    $scope.creator = creator;
+    $scope.rsvp = rsvp;
+    $scope.getUserById = getUserById;
+    $scope.pageChanged = pageChanged;
+    $scope.remove = remove;
 
-            });
+    // Tasks to run on directive initialisation
+    $meteor.autorun($scope, autorun);
+    $scope.$watch('orderProperty', watchOrderProperty);
+
+    // API and task implementation functions
+    function autorun() {
+      $meteor.subscribe('parties', {
+        limit: parseInt($scope.getReactively('perPage')),
+        skip:  (parseInt($scope.getReactively('page')) - 1) * parseInt($scope.getReactively('perPage')),
+        sort:  $scope.getReactively('sort')
+      }, $scope.getReactively('search')).then(function () {
+        $scope.partiesCount = $meteor.object(Counts, 'numberOfParties', false);
+
+        $scope.parties.forEach(function (party) {
+          party.onClicked = function () {
+            onMarkerClicked(party);
+          };
         });
 
-        that.$watch('orderProperty', function () {
-            if (this.orderProperty)
-                this.sort = {name: parseInt(this.orderProperty)};
-        });
+        $scope.map = {
+          center: {
+            latitude:  45,
+            longitude: -73
+          },
+          zoom:   8
+        };
 
+        var onMarkerClicked = function (marker) {
+          $state.go('partyDetails', {partyId: marker._id});
+        }
+
+      });
     }
 
-    remove(party) {
-        this.parties.splice(this.parties.indexOf(party), 1);
+    function watchOrderProperty() {
+      if ($scope.orderProperty)
+        $scope.sort = {name: parseInt($scope.orderProperty)};
     }
 
-    pageChanged(newPage) {
-        this.page = newPage;
+    function remove(party) {
+      $scope.parties.splice($scope.parties.indexOf(party), 1);
     }
 
-    getUserById(userId) {
-        return Meteor.users.findOne(userId);
+    function pageChanged(newPage) {
+      $scope.page = newPage;
     }
 
-    creator(party) {
-        if (!party)
-            return;
-        var owner = this.getUserById(party.owner);
-        if (!owner)
-            return "nobody";
-
-        if ($rootScope.currentUser)
-            if ($rootScope.currentUser._id)
-                if (owner._id === $rootScope.currentUser._id)
-                    return "me";
-
-        return owner;
+    function getUserById(userId) {
+      return Meteor.users.findOne(userId);
     }
 
-    rsvp(partyId, rsvp) {
-        $meteor.call('rsvp', partyId, rsvp).then(
-            function (data) {
-                console.log('success responding', data);
-            },
-            function (err) {
-                console.log('failed', err);
-            }
-        );
+    function creator(party) {
+      if (!party)
+        return;
+      var owner = $scope.getUserById(party.owner);
+      if (!owner)
+        return "nobody";
+
+      if ($rootScope.currentUser)
+        if ($rootScope.currentUser._id)
+          if (owner._id === $rootScope.currentUser._id)
+            return "me";
+
+      return owner;
     }
 
+    function rsvp(partyId, rsvp) {
+      $meteor.call('rsvp', partyId, rsvp).then(
+        function (data) {
+          console.log('success responding', data);
+        },
+        function (err) {
+          console.log('failed', err);
+        }
+      );
+    }
+  }
 }

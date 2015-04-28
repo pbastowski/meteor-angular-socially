@@ -1,6 +1,4 @@
-var {Component, Template, SetModuleName, bootstrap} = angular2;
-
-angular.module('socially',[
+angular.module('socially', [
   'angular-meteor',
   'ui.router',
   'angularUtils.directives.dirPagination',
