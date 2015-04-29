@@ -1,9 +1,9 @@
-var {Component, Template, Inject, SetModuleName} = angular2;
+var {Component, View, Inject, SetModuleName} = angular2;
 
 SetModuleName('socially');
 
 @Component({selector: 'parties-list'})
-@Template({url: 'client/parties/parties-list/parties-list.ng.html'})
+@View({templateUrl: 'client/parties/parties-list/parties-list.ng.html'})
 @Inject(['$scope', '$meteor', '$rootScope', '$state'])
 
 class PartiesList {
