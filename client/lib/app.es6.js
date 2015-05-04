@@ -1,16 +1,17 @@
-angular.module('socially', [
+var {SetModuleName, Component, View, Inject, bootstrap} = angular2;
+
+SetModuleName('socially', [
   'angular-meteor',
   'ui.router',
   'angularUtils.directives.dirPagination',
   'uiGmapgoogle-maps'
 ]);
 
-function onReady() {
-  angular.bootstrap(document, ['socially']);
+@Component({selector: 'socially-app'})
+class socially {
+  constructor() {
+    // Put any global App initialisation here
+  }
 }
 
-if (Meteor.isCordova)
-  angular.element(document).on("deviceready", onReady);
-else
-  angular.element(document).ready(onReady);
-
+bootstrap(socially);

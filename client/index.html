@@ -4,17 +4,18 @@
 </head>
 <body>
 
-<div>
-  <nav class="navbar navbar-fixed-top">
-    <div class="container-fluid">
-      <div class="navbar-header">
-        <a class="navbar-brand" href="/parties">Parties</a>
+  <socially-app>
+    <nav class="navbar navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="/parties">Parties</a>
+        </div>
+        <div class="navbar-right navbar-text">
+          <meteor-include src="loginButtons"></meteor-include>
+        </div>
       </div>
-      <div class="navbar-right navbar-text">
-        <meteor-include src="loginButtons"></meteor-include>
-      </div>
-    </div>
-  </nav>
-  <div ui-view class="container-fluid"></div>
-</div>
+    </nav>
+    <div ui-view class="container-fluid"></div>
+  </socially-app>
+
 </body>
