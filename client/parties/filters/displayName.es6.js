@@ -2,7 +2,7 @@ var {Filter, SetModuleName} = angular2;
 
 SetModuleName('socially');
 
-@Filter()
+@Filter({name: 'displayName'})
 class displayName {
   constructor() {
     return function (user) {

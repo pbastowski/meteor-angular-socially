@@ -8,6 +8,7 @@ SetModuleName('socially');
 
 class PartyDetails {
 
+  /* @ngInject */
   constructor($scope, $meteor, $stateParams) {
 
     // Scope properties

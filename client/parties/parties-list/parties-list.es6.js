@@ -7,7 +7,7 @@ SetModuleName('socially');
 @Inject(['$scope', '$meteor', '$rootScope', '$state'])
 
 class PartiesList {
-
+  /* @ngInject */
   constructor($scope, $meteor, $rootScope, $state) {
 
     // Scope properties

@@ -2,7 +2,7 @@ var {Filter, SetModuleName} = angular2;
 
 SetModuleName('socially');
 
-@Filter()
+@Filter({name: 'uninvited'})
 class uninvited {
   constructor() {
     return function (users, party) {
