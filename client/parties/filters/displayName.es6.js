@@ -1,6 +1,6 @@
-var {Filter, SetModuleName} = angular2;
+var {Filter} = angular2;
 
-SetModuleName('socially');
+angular.module('socially');
 
 @Filter({name: 'displayName'})
 class displayName {

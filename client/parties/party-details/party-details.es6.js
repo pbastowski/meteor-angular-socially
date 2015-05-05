@@ -1,6 +1,6 @@
-var {Component, View, Inject, SetModuleName} = angular2;
+var {Component, View, Inject} = angular2;
 
-SetModuleName('socially');
+angular.module('socially');
 
 @Component({selector: 'party-details'})
 @View({templateUrl: 'client/parties/party-details/party-details.ng.html'})
@@ -8,7 +8,6 @@ SetModuleName('socially');
 
 class PartyDetails {
 
-  /* @ngInject */
   constructor($scope, $meteor, $stateParams) {
 
     // Scope properties
