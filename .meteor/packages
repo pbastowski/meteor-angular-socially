@@ -17,4 +17,4 @@ angularui:angular-google-maps
 twbs:bootstrap
 less
 pbastowski:angular-babel
-pbastowski:angular2-now
+pbastowski:angular2-now@0.1.2
