@@ -9,7 +9,7 @@ angular.module('socially', [
 
 // The name option, below, is itself optional. If you don't supply a component name
 // then the selector name will be used instead.
-@Component({selector: 'socially-app', name: 'socially'})
+@Component({selector: 'socially'})
 @View({ template: '<content></content>' })
 class socially {
   constructor() {
