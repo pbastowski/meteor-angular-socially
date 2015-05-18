@@ -13,7 +13,7 @@
       .form-group
         input#public(type="checkbox", ng-model="vm.newParty.public")
         label(for="public") Public
-      button.btn(ng-click="vm.newParty.owner=$root.currentUser._id;parties.push(vm.newParty); vm.newParty='';") Add
+      button.btn(ng-click="vm.newParty.owner=$root.currentUser._id;vm.parties.push(vm.newParty); vm.newParty='';") Add
 
 .row
   .col-sm-12
@@ -35,7 +35,7 @@
         ui-gmap-markers(models="vm.parties", coords="'location'", click="'onClicked'", fit="true", idkey="'_id'", dorebuildall="true")
 
 ul.list-group.parties-list
-  li.list-group-item.col-sm-6(
+  li.list-group-item(
     dir-paginate="party in vm.parties | itemsPerPage: vm.perPage",
     total-items="vm.partiesCount.count"
   )
