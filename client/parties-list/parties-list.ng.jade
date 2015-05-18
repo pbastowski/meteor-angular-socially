@@ -42,7 +42,7 @@ ul.list-group.parties-list
     .row
       .col-sm-8
         h2
-          a(href="/parties/{{party._id}}") {{party.name}}
+          a(ui-sref="partyDetails({partyId: party._id})") {{party.name}}
         p {{party.description}}
       .col-sm-4
         a.close(ng-click="vm.remove(party)", ng-show="$root.currentUser && $root.currentUser._id == party.owner") &#215;

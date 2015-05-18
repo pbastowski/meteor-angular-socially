@@ -3,8 +3,10 @@ var {Component, View, Inject, State} = angular2now;
 angular.module('socially');
 
 @State({
-  name: 'partyDetails', url: '/parties/:partyId',
-  resolve:  { currentUser: ($meteor) => $meteor.requireUser() }
+  name:    'partyDetails', url: '/parties/:partyId',
+  resolve: {
+    "currentUser": $meteor => { "ngInject"; return $meteor.requireUser() }
+  }
 })
 
 @Component({selector: 'party-details'})
@@ -75,7 +77,7 @@ class PartyDetails {
             that.party.location.longitude = originalEventArgs[0].latLng.lng();
 
             // scope apply required because this event handler is outside of the angular domain
-            that.$apply();
+            $scope.$apply();
           }
         },
         marker: {
