@@ -9,7 +9,7 @@ angular.module('socially', [
 
 // The bootstrap component's selector name must be the same as the module name.
 @Component({selector: 'socially'})
-@View({template: '<content></content>'})
+@View({ templateUrl: 'client/app/app.html' })
 @Inject(['$rootScope', '$location'])
 
 class socially {
