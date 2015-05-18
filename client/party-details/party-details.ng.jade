@@ -1,22 +1,48 @@
 legend
   | Here you will see and change the details of the party:
+
 form.form-inline
+
   .form-group
     label Party Name
-    input.form-control(type="text", ng-model="party.name", ng-disabled="party.owner != $root.currentUser._id")
+    input.form-control(
+      type="text",
+      ng-model="vm.party.name",
+      ng-disabled="vm.party.owner != $root.currentUser._id"
+    )
   .form-group
     label  Party Name
-    input.form-control(type="text", ng-model="party.description", ng-disabled="party.owner != $root.currentUser._id")
+    input.form-control(
+      type="text",
+      ng-model="vm.party.description",
+      ng-disabled="vm.party.owner != $root.currentUser._id"
+    )
   .form-group
     label Is public
-    input(type="checkbox", ng-model="party.public", ng-disabled="party.owner != $root.currentUser._id")
-  ul(ng-show="canInvite()")
+    input(
+      type="checkbox",
+      ng-model="vm.party.public",
+      ng-disabled="vm.party.owner != $root.currentUser._id"
+    )
+
+  ul(ng-show="vm.canInvite()")
     | Users to invite:
-    li(ng-repeat="user in users | uninvited:party")
+    li(ng-repeat="user in vm.users | uninvited:party")
       div {{ user | displayName }}
-      button(ng-click="invite(user)") Invite
-    li(ng-if="(users | uninvited:party).length <= 0")
+      button(ng-click="vm.invite(user)") Invite
+    li(ng-if="(vm.users | uninvited:party).length <= 0")
       | Everyone are already invited.
+
   .angular-google-map-container
-    ui-gmap-google-map(center="map.center", events="map.events", zoom="map.zoom")
-      ui-gmap-marker(coords="party.location", options="map.marker.options", events="map.marker.events", idkey="party._id", fit="true")
+    ui-gmap-google-map(
+      center="vm.map.center",
+      events="vm.map.events",
+      zoom="vm.map.zoom"
+    )
+      ui-gmap-marker(
+        coords="vm.party.location",
+        options="vm.map.marker.options",
+        events="vm.map.marker.events",
+        idkey="vm.party._id",
+        fit="true"
+      )

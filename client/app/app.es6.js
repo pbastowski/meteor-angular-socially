@@ -1,5 +1,9 @@
 var {Component, View, Events, Inject, bootstrap} = angular2now;
 
+// Tell angular2-now to set controllerAs to "vm", instead of the default componentName
+// This is mostly because "vm" is shorter to type :)
+angular2now.options({ controllerAs: 'vm' })
+
 angular.module('socially', [
   'angular-meteor',
   'ui.router',

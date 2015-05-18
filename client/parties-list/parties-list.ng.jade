@@ -6,14 +6,15 @@
       h2 Create a new party:
       .form-group
         label(for="nameInput") Name
-        input#nameInput.form-control(type="text", ng-model="newParty.name")
+        input#nameInput.form-control(type="text", ng-model="vm.newParty.name")
       .form-group
         label(for="description") Description
-        input#description.form-control(type="text", ng-model="newParty.description")
+        input#description.form-control(type="text", ng-model="vm.newParty.description")
       .form-group
-        input#public(type="checkbox", ng-model="newParty.public")
+        input#public(type="checkbox", ng-model="vm.newParty.public")
         label(for="public") Public
-      button.btn(ng-click="newParty.owner=$root.currentUser._id;parties.push(newParty); newParty='';") Add
+      button.btn(ng-click="vm.newParty.owner=$root.currentUser._id;parties.push(vm.newParty); vm.newParty='';") Add
+
 .row
   .col-sm-12
     h1 Parties:
@@ -23,28 +24,32 @@
         .input-group
           .input-group-addon
             i.glyphicon.glyphicon-search
-          input#search.form-control(type="text", ng-model="search", placeholder="Search")
+          input#search.form-control(type="text", ng-model="vm.search", placeholder="Search")
       .form-group
         label.sr-only(for="sort-order") Sort Order
-        select.form-control(ng-model="orderProperty")
+        select.form-control(ng-model="vm.orderProperty")
           option(value="1") Ascending
           option(value="-1") Descending
     .angular-google-map-container
-      ui-gmap-google-map(center="map.center", zoom="map.zoom")
-        ui-gmap-markers(models="parties", coords="'location'", click="'onClicked'", fit="true", idkey="'_id'", dorebuildall="true")
-ul.list-group
-  li.list-group-item(dir-paginate="party in parties | itemsPerPage: perPage", total-items="partiesCount.count")
+      ui-gmap-google-map(center="vm.map.center", zoom="vm.map.zoom")
+        ui-gmap-markers(models="vm.parties", coords="'location'", click="'onClicked'", fit="true", idkey="'_id'", dorebuildall="true")
+
+ul.list-group.parties-list
+  li.list-group-item.col-sm-6(
+    dir-paginate="party in vm.parties | itemsPerPage: vm.perPage",
+    total-items="vm.partiesCount.count"
+  )
     .row
       .col-sm-8
         h2
           a(href="/parties/{{party._id}}") {{party.name}}
         p {{party.description}}
       .col-sm-4
-        a.close(ng-click="remove(party)", ng-show="$root.currentUser && $root.currentUser._id == party.owner") &#215;
+        a.close(ng-click="vm.remove(party)", ng-show="$root.currentUser && $root.currentUser._id == party.owner") &#215;
     div(ng-show="$root.currentUser")
-      input.btn.btn-primary(type="button", value="I'm going!", ng-click="rsvp(party._id, 'yes')")
-      input.btn(type="button", value="Maybe", ng-click="rsvp(party._id, 'maybe')")
-      input.btn(type="button", value="No", ng-click="rsvp(party._id, 'no')")
+      input.btn.btn-primary(type="button", value="I'm going!", ng-click="vm.rsvp(party._id, 'yes')")
+      input.btn(type="button", value="Maybe", ng-click="vm.rsvp(party._id, 'maybe')")
+      input.btn(type="button", value="No", ng-click="vm.rsvp(party._id, 'no')")
     div(ng-if="party.public")
       | Everyone is invited
     div(ng-hide="$root.currentUser")
@@ -55,15 +60,16 @@ ul.list-group
       | Maybe - {{ (party.rsvps | filter:{rsvp:"maybe"}).length }}
       | No - {{ (party.rsvps | filter:{rsvp:"no"}).length }}
       div(ng-repeat="rsvp in party.rsvps | filter:{rsvp:'yes'}")
-        | {{ getUserById(rsvp.user) | displayName }} - {{ rsvp.rsvp }}
+        | {{ vm.getUserById(rsvp.user) | displayName }} - {{ rsvp.rsvp }}
       div(ng-repeat="rsvp in party.rsvps | filter:{rsvp:'maybe'}")
-        | {{ getUserById(rsvp.user) | displayName }} - {{ rsvp.rsvp }}
+        | {{ vm.getUserById(rsvp.user) | displayName }} - {{ rsvp.rsvp }}
       div(ng-repeat="rsvp in party.rsvps | filter:{rsvp:'no'}")
-        | {{ getUserById(rsvp.user) | displayName }} - {{ rsvp.rsvp }}
+        | {{ vm.getUserById(rsvp.user) | displayName }} - {{ rsvp.rsvp }}
     ul(ng-if="!party.public")
-      | Users who haven"t responded:
+      | Users who haven't responded:
       li(ng-repeat="invitedUser in outstandingInvitations(party)")
         | {{ invitedUser | displayName }}
     p
-      small Posted by {{ creator(party) | displayName }}
-dir-pagination-controls(on-page-change="pageChanged(newPageNumber)")
+      small Posted by {{ vm.creator(party) | displayName }}
+
+dir-pagination-controls(on-page-change="vm.pageChanged(newPageNumber)")
