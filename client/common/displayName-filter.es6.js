@@ -1,4 +1,4 @@
-var {Filter} = angular2;
+var {Filter} = angular2now;
 
 angular.module('socially');
 

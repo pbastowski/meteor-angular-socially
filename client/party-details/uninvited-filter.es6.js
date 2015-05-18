@@ -1,8 +1,8 @@
-var {Filter} = angular2;
+var {Filter} = angular2now;
 
 angular.module('socially');
 
-@Filter({name: 'uninvited'})
+@Filter({ name: 'uninvited' })
 class uninvited {
   constructor() {
     return function (users, party) {
@@ -10,8 +10,7 @@ class uninvited {
         return false;
 
       return _.filter(users, function (user) {
-        if (user._id == party.owner ||
-          _.contains(party.invited, user._id))
+        if (user._id == party.owner || _.contains(party.invited, user._id))
           return false;
         else
           return true;

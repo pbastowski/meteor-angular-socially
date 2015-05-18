@@ -10,11 +10,12 @@ accounts-password
 accounts-ui
 accounts-facebook
 accounts-twitter
-urigo:angular-utils-pagination
 tmeasday:publish-counts
 email
 angularui:angular-google-maps
 twbs:bootstrap
 less
 pbastowski:angular-babel
-pbastowski:angular2-now@0.1.8
+pbastowski:angular2-now@0.1.9
+angularutils:pagination
+civilframe:angular-jade@0.0.2

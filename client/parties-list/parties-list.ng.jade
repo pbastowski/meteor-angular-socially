@@ -1,0 +1,69 @@
+.row
+  .col-sm-12
+    .alert.alert-info(ng-hide="$root.currentUser || $root.loggingIn")
+      | Log in to create a party!
+    form(ng-show="$root.currentUser")
+      h2 Create a new party:
+      .form-group
+        label(for="nameInput") Name
+        input#nameInput.form-control(type="text", ng-model="newParty.name")
+      .form-group
+        label(for="description") Description
+        input#description.form-control(type="text", ng-model="newParty.description")
+      .form-group
+        input#public(type="checkbox", ng-model="newParty.public")
+        label(for="public") Public
+      button.btn(ng-click="newParty.owner=$root.currentUser._id;parties.push(newParty); newParty='';") Add
+.row
+  .col-sm-12
+    h1 Parties:
+    form.form-inline.search-form
+      .form-group
+        label.sr-only(for="search") Search
+        .input-group
+          .input-group-addon
+            i.glyphicon.glyphicon-search
+          input#search.form-control(type="text", ng-model="search", placeholder="Search")
+      .form-group
+        label.sr-only(for="sort-order") Sort Order
+        select.form-control(ng-model="orderProperty")
+          option(value="1") Ascending
+          option(value="-1") Descending
+    .angular-google-map-container
+      ui-gmap-google-map(center="map.center", zoom="map.zoom")
+        ui-gmap-markers(models="parties", coords="'location'", click="'onClicked'", fit="true", idkey="'_id'", dorebuildall="true")
+ul.list-group
+  li.list-group-item(dir-paginate="party in parties | itemsPerPage: perPage", total-items="partiesCount.count")
+    .row
+      .col-sm-8
+        h2
+          a(href="/parties/{{party._id}}") {{party.name}}
+        p {{party.description}}
+      .col-sm-4
+        a.close(ng-click="remove(party)", ng-show="$root.currentUser && $root.currentUser._id == party.owner") &#215;
+    div(ng-show="$root.currentUser")
+      input.btn.btn-primary(type="button", value="I'm going!", ng-click="rsvp(party._id, 'yes')")
+      input.btn(type="button", value="Maybe", ng-click="rsvp(party._id, 'maybe')")
+      input.btn(type="button", value="No", ng-click="rsvp(party._id, 'no')")
+    div(ng-if="party.public")
+      | Everyone is invited
+    div(ng-hide="$root.currentUser")
+      i Sign in to RSVP for this party.
+    div
+      strong Who is coming:
+      | Yes - {{ (party.rsvps | filter:{rsvp:"yes"}).length }}
+      | Maybe - {{ (party.rsvps | filter:{rsvp:"maybe"}).length }}
+      | No - {{ (party.rsvps | filter:{rsvp:"no"}).length }}
+      div(ng-repeat="rsvp in party.rsvps | filter:{rsvp:'yes'}")
+        | {{ getUserById(rsvp.user) | displayName }} - {{ rsvp.rsvp }}
+      div(ng-repeat="rsvp in party.rsvps | filter:{rsvp:'maybe'}")
+        | {{ getUserById(rsvp.user) | displayName }} - {{ rsvp.rsvp }}
+      div(ng-repeat="rsvp in party.rsvps | filter:{rsvp:'no'}")
+        | {{ getUserById(rsvp.user) | displayName }} - {{ rsvp.rsvp }}
+    ul(ng-if="!party.public")
+      | Users who haven"t responded:
+      li(ng-repeat="invitedUser in outstandingInvitations(party)")
+        | {{ invitedUser | displayName }}
+    p
+      small Posted by {{ creator(party) | displayName }}
+dir-pagination-controls(on-page-change="pageChanged(newPageNumber)")

@@ -1,9 +1,11 @@
-var {Component, View, Inject} = angular2;
+var {Component, View, Inject, State} = angular2now;
 
 angular.module('socially');
 
+@State({ name: 'parties', url: '/parties', defaultRoute: true, html5Mode: true })
+
 @Component({selector: 'parties-list'})
-@View({templateUrl: 'client/parties/parties-list/parties-list.ng.html'})
+@View({templateUrl: 'client/parties-list/parties-list.html'})
 @Inject(['$scope', '$meteor', '$rootScope', '$state'])
 
 class PartiesList {

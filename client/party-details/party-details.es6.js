@@ -1,9 +1,14 @@
-var {Component, View, Inject} = angular2;
+var {Component, View, Inject, State} = angular2now;
 
 angular.module('socially');
 
+@State({
+  name: 'partyDetails', url: '/parties/:partyId',
+  resolve:  { currentUser: ($meteor) => $meteor.requireUser() }
+})
+
 @Component({selector: 'party-details'})
-@View({templateUrl: 'client/parties/party-details/party-details.ng.html'})
+@View({templateUrl: 'client/party-details/party-details.html'})
 @Inject(['$scope', '$meteor', '$stateParams'])
 
 class PartyDetails {
