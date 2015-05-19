@@ -16,6 +16,6 @@ angularui:angular-google-maps
 twbs:bootstrap
 less
 pbastowski:angular-babel
-pbastowski:angular2-now@0.1.9
+pbastowski:angular2-now@0.2.1
 angularutils:pagination
 civilframe:angular-jade@0.0.2

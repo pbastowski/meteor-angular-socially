@@ -34,7 +34,6 @@ class PartyDetails {
     });
 
     $scope.$on('$destroy', function () {
-      console.log('$destroy');
       subscriptionHandle.stop();
     });
 
