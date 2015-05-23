@@ -1,3 +1,5 @@
+"use strict";
+
 var {Component, View, Inject, State} = angular2now;
 
 angular.module('socially');
@@ -51,10 +53,8 @@ class PartiesList {
         $scope.getReactively('search')).then(function () {
           that.partiesCount = $meteor.object(Counts, 'numberOfParties', false);
 
-          that.parties.forEach(function (party) {
-            party.onClicked = function () {
-              onMarkerClicked(party);
-            };
+          that.parties.forEach( party => {
+            party.onClicked = () => $state.go('partyDetails', {partyId: party._id})
           });
 
           that.map = {
@@ -65,9 +65,6 @@ class PartiesList {
             zoom:   8
           };
 
-          var onMarkerClicked = function (marker) {
-            $state.go('partyDetails', {partyId: marker._id});
-          }
         }
 
       );

@@ -1,3 +1,5 @@
+"use strict";
+
 var {Component, View, Inject, State} = angular2now;
 
 angular.module('socially');
