@@ -35,7 +35,7 @@ form.form-inline
 
   .angular-google-map-container
     ui-gmap-google-map(
-      center="vm.party.location",
+      center="vm.party.location || vm.map.center",
       events="vm.map.events",
       zoom="vm.map.zoom"
     )
