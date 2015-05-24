@@ -18,16 +18,16 @@ angular.module('socially');
 class PartyDetails {
 
   constructor($scope, $meteor, $stateParams) {
-    var that = this;
+    var self = this;
 
     // Scope properties
-    that.party = $meteor.object(Parties, $stateParams.partyId);
-    that.users = $meteor.collection(Meteor.users, false).subscribe('users');
-    that.map = getMap();
+    self.party = $meteor.object(Parties, $stateParams.partyId);
+    self.users = $meteor.collection(Meteor.users, false).subscribe('users');
+    self.map = getMap();
 
     // Scope method declarations (API)
-    that.invite = invite;
-    that.canInvite = canInvite;
+    self.invite = invite;
+    self.canInvite = canInvite;
 
     // Tasks to run on directive initialisation
     var subscriptionHandle;
@@ -41,7 +41,7 @@ class PartyDetails {
 
     // API and task implementation functions
     function invite(user) {
-      $meteor.call('invite', that.party._id, user._id).then(
+      $meteor.call('invite', self.party._id, user._id).then(
         function (data) {
           console.log('success inviting', data);
         },
@@ -52,11 +52,11 @@ class PartyDetails {
     }
 
     function canInvite() {
-      if (!that.party)
+      if (!self.party)
         return false;
 
-      return !that.party.public &&
-        that.party.owner === Meteor.userId();
+      return !self.party.public &&
+        self.party.owner === Meteor.userId();
     }
 
     function getMap() {
@@ -68,14 +68,14 @@ class PartyDetails {
         zoom:   8,
         events: {
           click: function (mapModel, eventName, originalEventArgs) {
-            if (!that.party)
+            if (!self.party)
               return;
 
-            if (!that.party.location)
-              that.party.location = {};
+            if (!self.party.location)
+              self.party.location = {};
 
-            that.party.location.latitude = originalEventArgs[0].latLng.lat();
-            that.party.location.longitude = originalEventArgs[0].latLng.lng();
+            self.party.location.latitude = originalEventArgs[0].latLng.lat();
+            self.party.location.longitude = originalEventArgs[0].latLng.lng();
 
             // scope apply required because this event handler is outside of the angular domain
             $scope.$apply();
@@ -85,11 +85,11 @@ class PartyDetails {
           options: {draggable: true},
           events:  {
             dragend: function (marker, eventName, args) {
-              if (!that.party.location)
-                that.party.location = {};
+              if (!self.party.location)
+                self.party.location = {};
 
-              that.party.location.latitude = marker.getPosition().lat();
-              that.party.location.longitude = marker.getPosition().lng();
+              self.party.location.latitude = marker.getPosition().lat();
+              self.party.location.longitude = marker.getPosition().lng();
             }
           }
         }
