@@ -17,5 +17,5 @@ twbs:bootstrap
 less
 pbastowski:angular-babel
 pbastowski:angular2-now@0.2.2
-angularutils:pagination
 civilframe:angular-jade@0.0.2
+angularutils:pagination

@@ -24,7 +24,7 @@ class PartiesList {
 
     that.parties = $meteor.collection(function () {
       return Parties.find({}, {
-        sort: $scope.getReactively('sort')
+        sort: $scope.getReactively('vm.sort')
       });
     });
 
@@ -45,12 +45,12 @@ class PartiesList {
         'parties',
 
         {
-          limit: parseInt($scope.getReactively('perPage')),
-          skip:  (parseInt($scope.getReactively('page')) - 1) * parseInt($scope.getReactively('perPage')),
-          sort:  $scope.getReactively('sort')
+          limit: parseInt($scope.getReactively('vm.perPage')),
+          skip:  (parseInt($scope.getReactively('vm.page')) - 1) * parseInt($scope.getReactively('vm.perPage')),
+          sort:  $scope.getReactively('vm.sort')
         },
 
-        $scope.getReactively('search')).then(function () {
+        $scope.getReactively('vm.search')).then(function () {
           that.partiesCount = $meteor.object(Counts, 'numberOfParties', false);
 
           that.parties.forEach( party => {
