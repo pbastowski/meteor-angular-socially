@@ -27,7 +27,7 @@ form.form-inline
 
   ul(ng-show="vm.canInvite()")
     | Users to invite:
-    li(ng-repeat="user in vm.users | uninvited:party")
+    li(ng-repeat="user in vm.users | uninvited:vm.party")
       div {{ user | displayName }}
       button(ng-click="vm.invite(user)") Invite
     li(ng-if="(vm.users | uninvited:party).length <= 0")
