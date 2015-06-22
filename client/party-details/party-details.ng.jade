@@ -30,7 +30,7 @@ form.form-inline
     li(ng-repeat="user in vm.users | uninvited:vm.party")
       div {{ user | displayName }}
       button(ng-click="vm.invite(user)") Invite
-    li(ng-if="(vm.users | uninvited:party).length <= 0")
+    li(ng-if="(vm.users | uninvited:vm.party).length <= 0")
       | Everyone are already invited.
 
   .angular-google-map-container
