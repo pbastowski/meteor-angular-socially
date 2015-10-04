@@ -30,3 +30,7 @@ angularui:angular-google-maps
 twbs:bootstrap
 less
 angularui:angular-ui-bootstrap
+pbastowski:angular2-now
+pbastowski:ecmascript-extras
+pbastowski:require
+civilframe:angular-jade
