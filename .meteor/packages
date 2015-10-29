@@ -14,7 +14,6 @@ tracker                 # Meteor's client-side reactive programming library
 
 standard-minifiers      # JS/CSS minifiers run for production mode
 es5-shim                # ECMAScript 5 compatibility for older browsers.
-ecmascript              # Enable ECMAScript2015+ syntax in app code
 
 angular
 angularui:angular-ui-router
@@ -31,6 +30,7 @@ twbs:bootstrap
 less
 angularui:angular-ui-bootstrap
 pbastowski:angular2-now
-pbastowski:ecmascript-extras
 pbastowski:require
 civilframe:angular-jade
+check
+pbastowski:ng-babel

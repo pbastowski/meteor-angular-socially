@@ -1,0 +1,7 @@
+{
+  "extensions": [
+    "es6.js",
+    "js"
+  ],
+  "debug": "true"
+}
