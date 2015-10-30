@@ -1,4 +1,7 @@
+Parties = new Mongo.Collection("parties");
+
 import {State, Component, View, Inject} from "angular2now";
+//import {Parties} from 'client/model/parties';
 
 // @State os used to associate ui-router states with our components.
 // Notice that there is no "config" function anywhere in the app.

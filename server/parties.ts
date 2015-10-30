@@ -1,5 +1,6 @@
 Parties = new Mongo.Collection("parties");
 
+
 Parties.allow({
     insert: function (userId, party) {
         return userId && party.owner === userId;
@@ -93,3 +94,43 @@ var contactEmail = function (user) {
         return user.services.facebook.email;
     return null;
 };
+
+
+Meteor.publish("parties", function (options, searchString) {
+  if (searchString == null)
+    searchString = '';
+
+  Counts.publish(this, 'numberOfParties', Parties.find({
+    'name' : { '$regex' : '.*' + searchString || '' + '.*', '$options' : 'i' },
+    $or:[
+      {$and:[
+        {'public': true},
+        {'public': {$exists: true}}
+      ]},
+      {$and:[
+        {owner: this.userId},
+        {owner: {$exists: true}}
+      ]},
+      {$and:[
+        {invited: this.userId},
+        {invited: {$exists: true}}
+      ]}
+    ]}), { noReady: true });
+
+  return Parties.find({
+    'name' : { '$regex' : '.*' + searchString || '' + '.*', '$options' : 'i' },
+    $or:[
+      {$and:[
+        {"public": true},
+        {"public": {$exists: true}}
+      ]},
+      {$and:[
+        {owner: this.userId},
+        {owner: {$exists: true}}
+      ]},
+      {$and:[
+        {invited: this.userId},
+        {invited: {$exists: true}}
+      ]}
+    ]}, options);
+});

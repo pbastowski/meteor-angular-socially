@@ -29,8 +29,9 @@ angularui:angular-google-maps
 twbs:bootstrap
 less
 angularui:angular-ui-bootstrap
-pbastowski:angular2-now
-pbastowski:require
 civilframe:angular-jade
 check
-pbastowski:ng-babel
+pbastowski:angular-babel@1.0.1
+pbastowski:require
+pbastowski:typescript
+pbastowski:ng2now
